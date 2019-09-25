@@ -1,0 +1,49 @@
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+  #include <avr/power.h>
+#endif
+
+#define PIN         6 
+#define NUMPIXELS 5
+#define MAX_BRIGHT 255
+
+
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+
+
+
+void setup() {
+  Serial.begin(9600);
+pinMode(2, INPUT);
+pinMode(4, INPUT);
+pinMode(6, OUTPUT);
+  pixels.begin();
+}
+
+void loop() {
+  pixels.show();
+  pixels.clear();
+if (digitalRead(2) == HIGH) {
+for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
+if(i % 2 == 0) {
+        pixels.setPixelColor(i, pixels.Color(255, 255, 0));
+      } else{
+        pixels.setPixelColor(i, pixels.Color(255, 64, 0));
+      }
+    pixels.show();
+delay(500);
+    }
+  } else if (digitalRead(2) == LOW) { pixels.show(); }
+if(digitalRead(4) == HIGH){
+    Serial.print("o");
+for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
+if(i % 2 == 0) {
+        pixels.setPixelColor(i, pixels.Color(255, 0, 0));
+      } else{
+        pixels.setPixelColor(i, pixels.Color(0, 0, 255));
+      }
+    pixels.show();
+delay(500);
+}
+}
+}
